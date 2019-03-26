@@ -1,4 +1,4 @@
-package com.example.jetpack._view;
+package com.example.jetpack._view.navigation;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

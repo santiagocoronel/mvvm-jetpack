@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/JetPack.iml" filepath="$PROJECT_DIR$/JetPack.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvvm-jetpack.iml" filepath="$PROJECT_DIR$/mvvm-jetpack.iml" />
     </modules>
   </component>
 </project>

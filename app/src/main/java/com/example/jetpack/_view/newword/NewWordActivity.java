@@ -1,4 +1,4 @@
-package com.example.jetpack._view.main.word;
+package com.example.jetpack._view.newword;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.jetpack._view;
+package com.example.jetpack._view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 
 import com.example.jetpack.R;
+import com.example.jetpack._view.navigation.NavigationExampleActivity;
 import com.example.jetpack._view._base.BaseActivity;
 import com.example.jetpack._view._base.BasicMethods;
 import com.example.jetpack._view.main.databind.DataBindFragment;

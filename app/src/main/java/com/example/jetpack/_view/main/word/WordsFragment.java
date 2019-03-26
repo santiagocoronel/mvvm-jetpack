@@ -17,6 +17,7 @@ import com.example.jetpack.R;
 import com.example.jetpack._view.adapters.WordListAdapter;
 import com.example.jetpack._model.database.Word;
 import com.example.jetpack._view._base.BasicMethods;
+import com.example.jetpack._view.newword.NewWordActivity;
 import com.example.jetpack._viewmodel.WordViewModel;
 
 import butterknife.BindView;
