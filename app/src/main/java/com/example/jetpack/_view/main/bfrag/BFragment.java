@@ -1,4 +1,4 @@
-package com.example.jetpack._view.navigation.nav;
+package com.example.jetpack._view.main.bfrag;
 
 
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AFragment extends Fragment implements BasicMethods {
+public class BFragment extends Fragment implements BasicMethods {
 
 
     private View view;
@@ -26,16 +26,15 @@ public class AFragment extends Fragment implements BasicMethods {
     @BindView(R.id.textViewLetter)
     TextView textViewLetter;
 
-    public AFragment() {
+    public BFragment() {
         // Required empty public constructor
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_a, container, false);
+        view = inflater.inflate(R.layout.fragment_b, container, false);
         ButterKnife.bind(this, view);
-
 
         init();
         initListeners();
@@ -49,6 +48,6 @@ public class AFragment extends Fragment implements BasicMethods {
 
     @Override
     public void initListeners() {
-        textViewLetter.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_AFragment_to_BFragment));
+        textViewLetter.setOnClickListener(v -> Navigation.findNavController(view).navigate(R.id.action_BFragment_to_CFragment));
     }
 }

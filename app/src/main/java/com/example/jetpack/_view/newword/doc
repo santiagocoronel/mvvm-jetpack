@@ -1,0 +1,2 @@
+NewWordActivity: Retorna un texto a partir de un activity result
+puede solicitarle un texto con EXTRA_WORD_CREATE.
