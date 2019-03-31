@@ -68,4 +68,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui:$nav_version"
     androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 
+    implementation 'com.google.code.gson:gson:2.8.5'
+
 }
