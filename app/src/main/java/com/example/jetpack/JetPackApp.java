@@ -10,7 +10,6 @@ public class JetPackApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         //Aqui deben ir todas las inicializaciones o clases que requieran contexto de la aplicacion.
         PreferencesManager.inititilize(this);
     }
