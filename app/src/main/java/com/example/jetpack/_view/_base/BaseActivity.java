@@ -21,40 +21,33 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.jetpack.BuildConfig;
+import com.example.jetpack.R;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected final String TAG = this.getClass().getSimpleName();
 
-    //public FirebaseAuth mAuth;
     protected Fragment currentFragment;
     private AlertDialog progressBarDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "OPEN ACTIVITY " + TAG);
-        //mAuth = FirebaseAuth.getInstance();
         super.onCreate(savedInstanceState);
-
     }
 
     protected void replaceFragment(@NonNull Fragment fragment, @NonNull int layoutContainer, boolean addStack) {
-
         if (fragment.isVisible()) {
             if (BuildConfig.DEBUG)
                 Log.d(TAG, "El fragmento ya se encuentra visible");
             return;
         }
-
         FragmentTransaction obj = getSupportFragmentManager()
                 .beginTransaction()
                 .replace(layoutContainer, fragment);
-
         if (addStack) obj.addToBackStack(fragment.getClass().getSimpleName());
-
         obj.commit();
-
         currentFragment = fragment;
     }
 
@@ -119,16 +112,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (currentFragment != null)
             currentFragment.onActivityResult(requestCode, resultCode, data);
-
     }
 
     public void showDialogError(int code, @Nullable String msg) {
-
-
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
-                .setTitle("Error")
-                .setMessage("Lo sentimos, vuelve a intentarlo mas tarde.")
-                .setPositiveButton("Ok", (dialog, which) -> dialog.dismiss());
+                .setTitle(getResources().getString(R.string.error))
+                .setMessage(getResources().getString(R.string.lo_sentimos_vuelve_a_intentarlo_mas_tarde))
+                .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> dialog.dismiss());
 
         if (BuildConfig.DEBUG && msg != null && !msg.isEmpty()) {
             alertDialogBuilder.setTitle("Dev Error")
@@ -136,8 +126,5 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         alertDialogBuilder.create().show();
-
-
     }
-
 }
