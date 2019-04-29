@@ -7,9 +7,17 @@ import android.support.annotation.NonNull;
 
 import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
 import com.example.jetpack._model.repository.WeatherRepository;
+import com.example.jetpack._model.shared.PreferencesManager;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
+import com.google.gson.Gson;
 
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class WeatherViewModel extends BaseViewModel {
 
@@ -26,10 +34,7 @@ public class WeatherViewModel extends BaseViewModel {
         weatherRepository = new WeatherRepository();
     }
 
-
-    public void refreshCurrentWeatherLocation(double lat, double lng) {
-        weatherRepository.refreshCurrentWeatherLocation(lat, lng, REQUEST_REFRESH_CURRENT_WEATHER_LOCATION, this);
-    }
+    //region getters and setters
 
     public LiveData<WeatherLocation> getCurrentWeatherLocation() {
         return currentWeatherLocation;
@@ -47,12 +52,26 @@ public class WeatherViewModel extends BaseViewModel {
         currentMessageError.postValue(msgError);
     }
 
+    //endregion
+
+    public void refreshCurrentWeatherLocation(double lat, double lng) {
+        if (PreferencesManager.getInstance().getKey(PreferencesManager.KEY_WEATHER_CACHE) != null) {
+            //this.onSuccess(REQUEST_REFRESH_CURRENT_WEATHER_LOCATION,);
+
+            return;
+        }
+        weatherRepository.refreshCurrentWeatherLocation(lat, lng, REQUEST_REFRESH_CURRENT_WEATHER_LOCATION, this);
+    }
+
+    //region networking
+
     @Override
     public void onSuccess(int requestCode, Response successResponse) {
         switch (requestCode) {
             //region REQUEST_REFRESH_CURRENT_WEATHER_LOCATION
             case REQUEST_REFRESH_CURRENT_WEATHER_LOCATION:
                 currentWeatherLocation.postValue((WeatherLocation) successResponse.body());
+                PreferencesManager.getInstance().saveKey(PreferencesManager.KEY_WEATHER_CACHE, new Gson().toJson(successResponse.body()));
                 break;
             //endregion
 
@@ -89,4 +108,6 @@ public class WeatherViewModel extends BaseViewModel {
 
         }
     }
+
+    //endregion
 }

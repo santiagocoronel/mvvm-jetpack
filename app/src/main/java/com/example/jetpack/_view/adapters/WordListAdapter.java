@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.jetpack.R;
-import com.example.jetpack._model.database.Word;
+import com.example.jetpack._model.database.word.Word;
 
 import java.util.List;
 

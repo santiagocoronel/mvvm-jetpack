@@ -4,9 +4,9 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.jetpack._model.database.Word;
-import com.example.jetpack._model.database.WordDao;
-import com.example.jetpack._model.database.WordRoomDatabase;
+import com.example.jetpack._model.database.word.Word;
+import com.example.jetpack._model.database.word.WordDao;
+import com.example.jetpack._model.database.word.WordRoomDatabase;
 
 import java.util.List;
 

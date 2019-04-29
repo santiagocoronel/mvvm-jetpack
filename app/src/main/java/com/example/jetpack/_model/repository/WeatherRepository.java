@@ -23,7 +23,6 @@ public class WeatherRepository {
     }
 
     public void refreshCurrentWeatherLocation(double lat, double lng, int requestCode, OnResponse onResponse) {
-        //
         apiService.getDataWeather(lat, lng, API_KEY).enqueue(new Callback<WeatherLocation>() {
             @Override
             public void onResponse(Call<WeatherLocation> call, Response<WeatherLocation> response) {

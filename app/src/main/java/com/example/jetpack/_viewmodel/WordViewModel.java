@@ -1,10 +1,9 @@
 package com.example.jetpack._viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 
-import com.example.jetpack._model.database.Word;
+import com.example.jetpack._model.database.word.Word;
 import com.example.jetpack._model.repository.WordRepository;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
 

@@ -1,4 +1,4 @@
-package com.example.jetpack._model.database;
+package com.example.jetpack._model.database.word;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;

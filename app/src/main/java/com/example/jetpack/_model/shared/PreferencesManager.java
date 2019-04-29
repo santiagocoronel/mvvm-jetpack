@@ -9,17 +9,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class PreferencesManager {
-    private static String TAG = PreferencesManager.class.getSimpleName();
 
-    public static final String KEY_BASIC_AUTH = "key_basic_authentification";
-    public static final String KEY_SESSION = "key_session";
-    public static final String KEY_FCM_TOKEN = "key_fcm_token";
+    private static String TAG = PreferencesManager.class.getSimpleName();
 
     private static String KEY = "couponsbussines";
     private static volatile PreferencesManager instance = null;
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context context;
+
+    //default keys
+    public static final String KEY_BASIC_AUTH = "key_basic_authentification";
+    public static final String KEY_SESSION = "key_session";
+    public static final String KEY_FCM_TOKEN = "key_fcm_token";
+    //custom keys
+    public static final String KEY_WEATHER_CACHE = "key_weather_cache";
+
 
     private PreferencesManager(Context context) {
         this.context = context;

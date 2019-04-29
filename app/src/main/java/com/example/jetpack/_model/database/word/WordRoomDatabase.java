@@ -1,4 +1,4 @@
-package com.example.jetpack._model.database;
+package com.example.jetpack._model.database.word;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
