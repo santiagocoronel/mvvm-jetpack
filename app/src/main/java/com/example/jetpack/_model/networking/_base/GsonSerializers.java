@@ -1,4 +1,4 @@
-package com.example.jetpack._model.networking;
+package com.example.jetpack._model.networking._base;
 
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonPrimitive;

@@ -1,10 +1,9 @@
 package com.example.jetpack._viewmodel;
 
 import android.app.Application;
-import android.arch.lifecycle.ViewModel;
 import android.support.annotation.NonNull;
 
-import com.example.jetpack._model.networking.OnResponse;
+import com.example.jetpack._model.networking._base.OnResponse;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
 
 import retrofit2.Response;

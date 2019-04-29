@@ -1,9 +1,7 @@
 package com.example.jetpack._model.repository;
 
-import android.arch.lifecycle.LiveData;
-
-import com.example.jetpack._model.networking.OnResponse;
-import com.example.jetpack._model.networking.ServiceGenerator;
+import com.example.jetpack._model.networking._base.OnResponse;
+import com.example.jetpack._model.networking._base.ServiceGenerator;
 import com.example.jetpack._model.networking.openweatherapi.OpenWeatherMapApi;
 import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
 
@@ -24,23 +22,23 @@ public class WeatherRepository {
         apiService = ServiceGenerator.createService(BASE_URL, null, null, OpenWeatherMapApi.class);
     }
 
-    public void refreshCurrentWeatherLocation(int requestCode, OnResponse onResponse) {
+    public void refreshCurrentWeatherLocation(double lat, double lng, int requestCode, OnResponse onResponse) {
         //
-        apiService.getDataWeather(0d, 0d, API_KEY).enqueue(new Callback<WeatherLocation>() {
+        apiService.getDataWeather(lat, lng, API_KEY).enqueue(new Callback<WeatherLocation>() {
             @Override
             public void onResponse(Call<WeatherLocation> call, Response<WeatherLocation> response) {
                 if (response.isSuccessful()) {
-                    onResponse.onSuccess(requestCode,response);
+                    onResponse.onSuccess(requestCode, response);
                 } else if (response.code() == 403) {
-                    onResponse.onAuthorizationError(requestCode,response);
+                    onResponse.onAuthorizationError(requestCode, response);
                 } else {
-                    onResponse.onError(requestCode,response);
+                    onResponse.onError(requestCode, response);
                 }
             }
 
             @Override
             public void onFailure(Call<WeatherLocation> call, Throwable t) {
-                onResponse.onFailure(requestCode,t);
+                onResponse.onFailure(requestCode, t);
             }
         });
     }

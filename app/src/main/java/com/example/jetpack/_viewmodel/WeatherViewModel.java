@@ -4,7 +4,6 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
 import com.example.jetpack._model.repository.WeatherRepository;
@@ -28,8 +27,8 @@ public class WeatherViewModel extends BaseViewModel {
     }
 
 
-    public void refreshCurrentWeatherLocation() {
-        weatherRepository.refreshCurrentWeatherLocation(REQUEST_REFRESH_CURRENT_WEATHER_LOCATION, this);
+    public void refreshCurrentWeatherLocation(double lat, double lng) {
+        weatherRepository.refreshCurrentWeatherLocation(lat, lng, REQUEST_REFRESH_CURRENT_WEATHER_LOCATION, this);
     }
 
     public LiveData<WeatherLocation> getCurrentWeatherLocation() {

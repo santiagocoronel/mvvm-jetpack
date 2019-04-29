@@ -62,17 +62,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
         init();
         initListeners();
 
-        weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
-        weatherViewModel.getCurrentWeatherLocation().observe(this, weatherLocation -> {
-            if (weatherLocation != null) {
-                updateUI(weatherLocation);
-            }
-        });
-        weatherViewModel.getCurrentMessageError().observe(this, s -> {
-            if (s != null) {
-                showError(s);
-            }
-        });
+
     }
 
     @Override
@@ -105,6 +95,17 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     public void init() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         initLocation();
+        weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
+        weatherViewModel.getCurrentWeatherLocation().observe(this, weatherLocation -> {
+            if (weatherLocation != null) {
+                updateUI(weatherLocation);
+            }
+        });
+        weatherViewModel.getCurrentMessageError().observe(this, s -> {
+            if (s != null) {
+                showError(s);
+            }
+        });
     }
 
     @Override
@@ -135,19 +136,22 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     private void getLastKnowLocation() {
         if (((JetPackApp) getApplication()).mGoogleApiClient.isConnected()) {
 
+
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(this, location -> {
+                        double lat = 0d;
+                        double lng = 0d;
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             Toast.makeText(this, "lat: " + location.getLatitude() + " lng: " + location.getLongitude(), Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(this, "Se tomo localizacion default", Toast.LENGTH_SHORT).show();
-                            double lat = -31.4195404d;
-                            double lng = -64.2084953d;
+                            lat = -31.4195404d;
+                            lng = -64.2084953d;
 
                         }
                         showProgressBar("Aguarde", true);
-                        weatherViewModel.refreshCurrentWeatherLocation();
+                        weatherViewModel.refreshCurrentWeatherLocation(lat, lng);
                     });
         }
     }

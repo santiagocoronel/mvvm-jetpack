@@ -1,10 +1,6 @@
-package com.example.jetpack._model.networking;
+package com.example.jetpack._model.networking._base;
 
 import retrofit2.Response;
-
-/**
- * Created by FerJuarez on 25/9/2017.
- */
 
 public interface OnResponse<T> {
 
