@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="._view.main.nav.BFragment"
+    tools:context="._view.navigation.bfrag.BFragment"
     android:background="@android:color/holo_blue_light">
 
     <!-- TODO: Update blank fragment layout -->

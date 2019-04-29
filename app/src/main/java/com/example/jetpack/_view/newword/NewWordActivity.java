@@ -16,6 +16,9 @@ import butterknife.ButterKnife;
 public class NewWordActivity extends BaseActivity implements BasicMethods {
 
     public static final String EXTRA_WORD_CREATE = "extra_word_create";
+    public static final String ARG_TOTAL_SUM = "arg_total_sum";
+    public static final int REQUEST_OPEN_CAMERA = 2309;
+    public static final String ACTION_OPEN_POST = "action_open_post";
 
     @BindView(R.id.editTextWord)
     EditText editTextWord;

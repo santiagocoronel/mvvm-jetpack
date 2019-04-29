@@ -2,6 +2,7 @@ package com.example.jetpack._model.shared;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.jetpack._model.pojo.Session;
 import com.google.gson.Gson;
@@ -25,6 +26,10 @@ public class PreferencesManager {
     }
 
     public static void inititilize(Context context) {
+        if (instance != null) {
+            Log.e(TAG, "PreferenceManager is already initialized");
+            return;
+        }
         instance = new PreferencesManager(context);
         instance.init();
     }

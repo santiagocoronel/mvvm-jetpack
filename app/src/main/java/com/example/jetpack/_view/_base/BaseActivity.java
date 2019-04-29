@@ -1,6 +1,7 @@
 package com.example.jetpack._view._base;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -114,7 +115,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             currentFragment.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void showDialogError(int code, @Nullable String msg) {
+    protected void showDialogError(int code, @Nullable String msg) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.error))
                 .setMessage(getResources().getString(R.string.lo_sentimos_vuelve_a_intentarlo_mas_tarde))
@@ -126,5 +127,27 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
 
         alertDialogBuilder.create().show();
+    }
+
+    protected void showDialogMessage(String title, String msg) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton(getResources().getString(R.string.ok), (dialog, which) -> dialog.dismiss());
+
+        alertDialogBuilder.create().show();
+    }
+
+    protected boolean checkPermission(String permissionCheck, @NonNull String[] permissionsList, @NonNull int[] grantResults) {
+
+        for (int i = 0; i < permissionsList.length; i++) {
+
+            if (permissionCheck.equals(permissionsList[i])) {
+                return grantResults[i] == PackageManager.PERMISSION_GRANTED;
+            }
+
+        }
+
+        return false;
     }
 }

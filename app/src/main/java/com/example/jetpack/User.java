@@ -1,8 +1,12 @@
-package com.example.jetpack._model.pojo;
+package com.example.jetpack;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+/**
+ * ESTA CLASE NO VA AQUI DEBERIA IR EN _model.pojo pero el ejemplo de databinding no lo reconoce
+ */
 public class User implements Parcelable {
 
     private String firstName;

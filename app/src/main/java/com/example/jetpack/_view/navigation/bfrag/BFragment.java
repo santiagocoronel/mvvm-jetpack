@@ -1,4 +1,4 @@
-package com.example.jetpack._view.main.bfrag;
+package com.example.jetpack._view.navigation.bfrag;
 
 
 import android.os.Bundle;

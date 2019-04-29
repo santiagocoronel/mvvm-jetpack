@@ -6,10 +6,13 @@ import android.arch.lifecycle.LiveData;
 
 import com.example.jetpack._model.database.Word;
 import com.example.jetpack._model.repository.WordRepository;
+import com.example.jetpack._viewmodel._base.BaseViewModel;
 
 import java.util.List;
 
-public class WordViewModel extends AndroidViewModel {
+import retrofit2.Response;
+
+public class WordViewModel extends BaseViewModel {
 
     private WordRepository mRepository;
 
@@ -24,4 +27,26 @@ public class WordViewModel extends AndroidViewModel {
     public LiveData<List<Word>> getAllWords() { return mAllWords; }
 
     public void insert(Word word) { mRepository.insert(word); }
+
+    //region networking
+    @Override
+    public void onSuccess(int requestCode, Response successResponse) {
+
+    }
+
+    @Override
+    public void onError(int requestCode, Response errorResponse) {
+
+    }
+
+    @Override
+    public void onAuthorizationError(int requestCode, Response authorizationResponse) {
+
+    }
+
+    @Override
+    public void onFailure(int requestCode, Throwable t) {
+
+    }
+    //endregion
 }

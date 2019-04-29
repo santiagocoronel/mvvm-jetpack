@@ -11,7 +11,31 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+
+        debug {
+            buildConfigField "String", "AMB", "\"D\""
+            buildConfigField "String", "TERMS_CONDITIONS", "\"http://zencom.com.ar/terminos-y-condiciones-cotizen/\""
+            buildConfigField "int", "CONNECT_TIME_OUT", "10"  //in seconds
+            buildConfigField "int", "READ_TIME_OUT", "9999"     //in minutes
+            buildConfigField "int", "WRITE_TIME_OUT", "9999"    //in minutes
+            buildConfigField "int", "CACHE_TIMEOUT", "15"   //in minutes
+            buildConfigField "int", "SPLASH_TIME", "1000"   //in milliseconds
+            buildConfigField "boolean", "ENABLE_LOG", "true"
+
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+
         release {
+            buildConfigField "String", "AMB", "\"R\""
+            buildConfigField "String", "TERMS_CONDITIONS", "\"http://zencom.com.ar/terminos-y-condiciones-cotizen/\""
+            buildConfigField "int", "CONNECT_TIME_OUT", "30"    //in seconds
+            buildConfigField "int", "READ_TIME_OUT", "30"   //in minutes
+            buildConfigField "int", "WRITE_TIME_OUT", "30"  //in minutes
+            buildConfigField "int", "CACHE_TIMEOUT", "15"   //in minutes
+            buildConfigField "int", "SPLASH_TIME", "1000"   //in milliseconds
+            buildConfigField "boolean", "ENABLE_LOG", "false"
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -34,6 +58,8 @@ ext {
     butterKnifeVersion = '8.8.1'
     archLifeCycleVersion = '1.1.1'
     persistenceVersion = '1.1.1'
+    retrofitVersion = '2.0.1'
+    interceptorVersion = '3.9.1'
 }
 
 dependencies {
@@ -68,6 +94,14 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui:$nav_version"
     androidTestImplementation "android.arch.navigation:navigation-testing:$nav_version"
 
+    //gson
     implementation 'com.google.code.gson:gson:2.8.5'
+
+    //region RXJAVA - RETROFIT - INTERCEPTOR
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$interceptorVersion"
+
+    //Google services
+    implementation 'com.google.android.gms:play-services-location:16.0.0'
 
 }

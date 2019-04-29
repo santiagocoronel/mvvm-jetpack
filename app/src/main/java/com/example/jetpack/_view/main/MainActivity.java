@@ -6,12 +6,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.view.View;
 
 import com.example.jetpack.R;
-import com.example.jetpack._view.navigation.NavigationExampleActivity;
 import com.example.jetpack._view._base.BaseActivity;
 import com.example.jetpack._view._base.BasicMethods;
 import com.example.jetpack._view.main.databind.DataBindFragment;
 import com.example.jetpack._view.main.score.ScoreFragment;
 import com.example.jetpack._view.main.word.WordsFragment;
+import com.example.jetpack._view.navigation.NavigationExampleActivity;
+import com.example.jetpack._view.weather.WeatherActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +53,9 @@ public class MainActivity extends BaseActivity implements BasicMethods {
                 case R.id.navigation_nav:
                     startActivity(new Intent(this, NavigationExampleActivity.class));
                     return true;
-
+                case R.id.navigation_weather:
+                    startActivity(new Intent(this, WeatherActivity.class));
+                    return true;
 
             }
             return false;

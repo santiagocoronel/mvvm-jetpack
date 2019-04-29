@@ -5,7 +5,8 @@
 
         <variable
             name="user"
-            type="com.example.jetpack._model.pojo.User" />
+            type="com.example.jetpack.User" />
+
     </data>
 
     <LinearLayout
@@ -27,7 +28,7 @@
             android:id="@+id/buttonCambiarNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/cambiar_nombre"/>
+            android:text="@string/cambiar_nombre" />
 
     </LinearLayout>
 </layout>
