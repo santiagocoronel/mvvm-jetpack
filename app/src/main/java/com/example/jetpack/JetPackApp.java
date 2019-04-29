@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.jetpack._model.shared.PreferencesManager;
+import com.example.jetpack.util.cloudinary.CloudinaryUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -23,6 +24,7 @@ public class JetPackApp extends Application implements GoogleApiClient.Connectio
         //Aqui deben ir todas las inicializaciones o clases que requieran contexto de la aplicacion.
         PreferencesManager.inititilize(this);
         buildGoogleApiClient();
+        //CloudinaryUtils.initCloudinary(this);
 
     }
 

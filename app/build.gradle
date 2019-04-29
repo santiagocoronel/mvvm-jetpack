@@ -60,6 +60,7 @@ ext {
     persistenceVersion = '1.1.1'
     retrofitVersion = '2.0.1'
     interceptorVersion = '3.9.1'
+    glideVersion = '4.3.0'
 }
 
 dependencies {
@@ -103,5 +104,12 @@ dependencies {
 
     //Google services
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    //implementacion de CloudinaryUtils
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
+
+    //glide
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
 
 }
