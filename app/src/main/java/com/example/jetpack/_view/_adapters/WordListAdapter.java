@@ -1,4 +1,4 @@
-package com.example.jetpack._view.adapters;
+package com.example.jetpack._view._adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
