@@ -19,7 +19,7 @@ import com.example.jetpack.R;
 import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
 import com.example.jetpack._view._base.BaseActivity;
 import com.example.jetpack._view._base.BasicMethods;
-import com.example.jetpack._viewmodel.WeatherViewModel;
+import com.example.jetpack._viewmodel.weather.WeatherViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -151,7 +151,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
 
                         }
                         showProgressBar("Aguarde", true);
-                        weatherViewModel.refreshCurrentWeatherLocation(lat, lng);
+                        weatherViewModel.getCurrentWeatherLocation(lat, lng);
                     });
         }
     }

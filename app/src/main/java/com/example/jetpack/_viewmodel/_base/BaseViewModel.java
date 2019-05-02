@@ -4,9 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.support.annotation.NonNull;
 
-import com.example.jetpack._model.networking._base.OnResponse;
-
-public abstract class BaseViewModel extends AndroidViewModel implements OnResponse {
+public abstract class BaseViewModel extends AndroidViewModel  {
 
     public BaseViewModel(@NonNull Application application) {
         super(application);

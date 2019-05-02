@@ -2,7 +2,7 @@ package com.example.jetpack._model.networking._base;
 
 import retrofit2.Response;
 
-public interface OnResponse<T> {
+public interface OnResponseNetwork<T> {
 
     void onSuccess(int requestCode, Response successResponse);
 

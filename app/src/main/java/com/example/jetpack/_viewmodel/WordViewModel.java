@@ -17,35 +17,19 @@ public class WordViewModel extends BaseViewModel {
 
     private LiveData<List<Word>> mAllWords;
 
-    public WordViewModel (Application application) {
+    public WordViewModel(Application application) {
         super(application);
         mRepository = new WordRepository(application);
         mAllWords = mRepository.getAllWords();
     }
 
-    public LiveData<List<Word>> getAllWords() { return mAllWords; }
-
-    public void insert(Word word) { mRepository.insert(word); }
-
-    //region networking
-    @Override
-    public void onSuccess(int requestCode, Response successResponse) {
-
+    public LiveData<List<Word>> getAllWords() {
+        return mAllWords;
     }
 
-    @Override
-    public void onError(int requestCode, Response errorResponse) {
-
+    public void insert(Word word) {
+        mRepository.insert(word);
     }
 
-    @Override
-    public void onAuthorizationError(int requestCode, Response authorizationResponse) {
 
-    }
-
-    @Override
-    public void onFailure(int requestCode, Throwable t) {
-
-    }
-    //endregion
 }

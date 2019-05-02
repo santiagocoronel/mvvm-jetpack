@@ -97,7 +97,6 @@ public class PreferencesManager {
         } else return null;
     }
 
-
     private void init() {
         prefs = context.getSharedPreferences(KEY, Context.MODE_PRIVATE);
     }
