@@ -1,9 +1,15 @@
-package com.example.jetpack._model.repository.weather;
+package com.example.jetpack._model.repository.openweather;
 
+import android.app.Application;
+import android.arch.lifecycle.LiveData;
+
+import com.example.jetpack._model.database.openweather.OpenWeatherDataBase;
+import com.example.jetpack._model.database.openweather.clima.ClimaDao;
+import com.example.jetpack._model.database.openweather.clima.ClimaEntity;
 import com.example.jetpack._model.networking._base.ServiceGenerator;
-import com.example.jetpack._model.networking.openweatherapi.OpenWeatherMapApi;
-import com.example.jetpack._model.pojo.openweatherapi.WeatherForecast;
-import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
+import com.example.jetpack._model.networking.openweather.OpenWeatherMapApi;
+import com.example.jetpack._model.pojo.openweather.WeatherForecast;
+import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
 import com.example.jetpack._model.repository._base.Repository;
 
@@ -19,8 +25,16 @@ public class WeatherRepository extends Repository {
 
     private final OpenWeatherMapApi apiService;
 
-    public WeatherRepository() {
+    private ClimaDao climaDao;
+    private LiveData<ClimaEntity> clima;
+
+
+    public WeatherRepository(Application application) {
         apiService = ServiceGenerator.createService(BASE_URL, null, null, OpenWeatherMapApi.class);
+
+        OpenWeatherDataBase db = OpenWeatherDataBase.getDatabase(application);
+        climaDao = db.climaDao();
+        clima = climaDao.get();
     }
 
     public void getCurrentWeatherLocation(double lat, double lng, OnResponse onResponse) {
@@ -69,4 +83,7 @@ public class WeatherRepository extends Repository {
         call.enqueue(callBack);
     }
 
+    public LiveData<ClimaEntity> getClima() {
+        return clima;
+    }
 }

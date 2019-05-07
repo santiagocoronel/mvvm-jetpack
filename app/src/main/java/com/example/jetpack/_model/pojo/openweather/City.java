@@ -1,4 +1,4 @@
-package com.example.jetpack._model.pojo.openweatherapi;
+package com.example.jetpack._model.pojo.openweather;
 
 public class City {
 

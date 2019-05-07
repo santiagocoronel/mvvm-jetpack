@@ -1,5 +1,5 @@
 
-package com.example.jetpack._model.pojo.openweatherapi;
+package com.example.jetpack._model.pojo.openweather;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

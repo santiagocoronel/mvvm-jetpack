@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.example.jetpack.JetPackApp;
 import com.example.jetpack.R;
-import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
+import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._view._base.BaseActivity;
 import com.example.jetpack._view._base.BasicMethods;
 import com.example.jetpack._viewmodel.weather.WeatherViewModel;

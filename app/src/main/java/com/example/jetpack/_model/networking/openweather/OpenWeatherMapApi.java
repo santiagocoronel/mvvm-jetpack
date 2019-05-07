@@ -1,7 +1,7 @@
-package com.example.jetpack._model.networking.openweatherapi;
+package com.example.jetpack._model.networking.openweather;
 
-import com.example.jetpack._model.pojo.openweatherapi.WeatherForecast;
-import com.example.jetpack._model.pojo.openweatherapi.WeatherLocation;
+import com.example.jetpack._model.pojo.openweather.WeatherForecast;
+import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
