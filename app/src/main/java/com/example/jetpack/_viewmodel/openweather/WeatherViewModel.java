@@ -10,6 +10,7 @@ import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
 import com.example.jetpack._model.repository.openweather.WeatherRepository;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
+import com.example.jetpack.util.OnVoidListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
@@ -20,8 +21,8 @@ public class WeatherViewModel extends BaseViewModel {
 
     @Deprecated
     private final MutableLiveData<WeatherLocation> currentWeatherLocation = new MutableLiveData<>();
-    private final MutableLiveData<String> currentMessageError = new MutableLiveData<>();
     private final MutableLiveData<ClimaEntity> climaActual = new MutableLiveData<>();
+
 
     private MutableLiveData<LatLng> latLng = new MutableLiveData<>();
 
@@ -38,14 +39,6 @@ public class WeatherViewModel extends BaseViewModel {
 
     public void setWeatherRepository(WeatherLocation weatherLocation) {
         currentWeatherLocation.postValue(weatherLocation);
-    }
-
-    public MutableLiveData<String> getCurrentMessageError() {
-        return currentMessageError;
-    }
-
-    public void setCurrentMessageError(String msgError) {
-        currentMessageError.postValue(msgError);
     }
 
     public MutableLiveData<ClimaEntity> getClimaActual() {
@@ -82,7 +75,7 @@ public class WeatherViewModel extends BaseViewModel {
             @Override
             public void onError(int code, String error) {
                 //error al obtener informacion
-                currentMessageError.postValue(error + " code: " + code);
+                WeatherViewModel.this.error.postValue(error + " code: " + code);
             }
         });
     }
@@ -92,7 +85,32 @@ public class WeatherViewModel extends BaseViewModel {
     }
 
     public void refrescarClima() {
-        weatherRepository.refrescarClima(latLng.getValue());
+        weatherRepository.refrescarClima(latLng.getValue(), new OnVoidListener() {
+            @Override
+            public void onStartProcess() {
+                setLoading("Aguarde...");
+            }
+
+            @Override
+            public void onFinishProcess() {
+                setLoading(null);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(String error) {
+                setError(error);
+            }
+        });
     }
 
+    @Override
+    public void cancelRequestData() {
+        super.cancelRequestData();
+        weatherRepository.cancelRequestData();
+    }
 }

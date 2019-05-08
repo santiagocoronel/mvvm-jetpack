@@ -23,7 +23,9 @@ import com.example.jetpack._model.database.openweather.clima.ClimaEntity;
 import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._view._base.BaseActivity;
 import com.example.jetpack._view._base.BasicMethods;
+import com.example.jetpack._view._base.DialogListener;
 import com.example.jetpack._viewmodel.openweather.WeatherViewModel;
+import com.example.jetpack.util.OnVoidListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -51,6 +53,9 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
 
     @BindView(R.id.fab)
     FloatingActionButton fab;
+
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationRequest locationRequest;
@@ -101,11 +106,6 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         initLocation();
         weatherViewModel = ViewModelProviders.of(this).get(WeatherViewModel.class);
-        /*weatherViewModel.getCurrentWeatherLocation().observe(this, weatherLocation -> {
-            if (weatherLocation != null) {
-                updateUI(weatherLocation);
-            }
-        });*/
 
         weatherViewModel.getClima().observe(this, climaEntity -> {
                     if (climaEntity != null) {
@@ -114,7 +114,27 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
                 }
         );
 
-        weatherViewModel.getCurrentMessageError().observe(this, s -> {
+        weatherViewModel.getLoading().observe(this, s -> {
+            if (s != null) {
+                showProgressBar(s, true, new DialogListener() {
+                    @Override
+                    public void onCancel() {
+                        weatherViewModel.cancelRequestData();
+                        dismissProgressBar();
+                    }
+
+                    @Override
+                    public void onDismiss() {
+                        weatherViewModel.cancelRequestData();
+                        dismissProgressBar();
+                    }
+                });
+            } else {
+                dismissProgressBar();
+            }
+        });
+
+        weatherViewModel.getError().observe(this, s -> {
             if (s != null) {
                 showError(s);
             }
@@ -125,6 +145,10 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     public void initListeners() {
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            weatherViewModel.refrescarClima();
+            swipeRefreshLayout.setRefreshing(false);
+        });
 
     }
 
@@ -164,9 +188,6 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
                             lng = -64.2084953d;
 
                         }
-                        //showProgressBar("Aguarde", true);
-                        //weatherViewModel.getCurrentWeatherLocation(lat, lng);
-                        //weatherViewModel.getClima();
                         weatherViewModel.setLatLng(new LatLng(lat, lng));
                     });
         }
@@ -209,26 +230,20 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
 
     @Deprecated
     private void updateUI(WeatherLocation weatherLocation) {
-        //swipeRefreshLayout.setRefreshing(false);
-        dismissProgressBar();
         textViewCityName.setText(weatherLocation.getName());
         textViewMaxTemp.setText(weatherLocation.getWeather().get(0).getDescription());
         textViewMinTemp.setText(weatherLocation.getWind().getSpeed() + "");
     }
 
     private void updateUI(ClimaEntity climaEntity) {
-        //swipeRefreshLayout.setRefreshing(false);
-        dismissProgressBar();
         textViewCityName.setText(climaEntity.getCiudad());
         textViewMaxTemp.setText(climaEntity.getTemperatura() + "");
         textViewMinTemp.setText(climaEntity.getVelocidad() + "");
     }
 
     private void showError(String s) {
-        //swipeRefreshLayout.setRefreshing(false);
-        dismissProgressBar();
         showDialogMessage("Error", s);
-        weatherViewModel.setCurrentMessageError(null);
+        weatherViewModel.setError(null);
     }
 
 }

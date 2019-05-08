@@ -14,6 +14,7 @@ import com.example.jetpack._model.pojo.openweather.WeatherForecast;
 import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
 import com.example.jetpack._model.repository._base.Repository;
+import com.example.jetpack.util.OnVoidListener;
 import com.google.android.gms.maps.model.LatLng;
 
 import retrofit2.Call;
@@ -30,7 +31,7 @@ public class WeatherRepository extends Repository {
 
     private ClimaDao climaDao;
     private LiveData<ClimaEntity> clima;
-    private MutableLiveData<String> error = new MutableLiveData<>();
+    //private MutableLiveData<String> error = new MutableLiveData<>();
     private long lastUpdateClima = 0l;
     private long lifeTimeClima = 1; //in minutes
 
@@ -97,7 +98,7 @@ public class WeatherRepository extends Repository {
         return clima;
     }
 
-    public void refrescarClima(LatLng latLng) {
+    public void refrescarClima(LatLng latLng, OnVoidListener onVoidListener) {
 
         /**
          * Validamos que el clima sea distinto de null - sino lo descargamos desde la api.
@@ -107,11 +108,11 @@ public class WeatherRepository extends Repository {
          * Si alguna de estas validaciones no se cumple se descarga desde la api
          * */
 
-        if (clima.getValue() == null && latLng != null) {
+        /*if (clima.getValue() == null && latLng != null) {
 
             getWeatherFromNetwork(latLng.latitude, latLng.longitude);
 
-        } else if (clima.getValue() == null &&
+        } else if (clima.getValue() != null &&
                 checkLifeTime(lastUpdateClima, lifeTimeClima) && //tiempos de vida aun valido? requiere agregar el algoritmo
                 latLng != null &&
                 clima.getValue().getLatitud() == latLng.latitude &&
@@ -120,11 +121,20 @@ public class WeatherRepository extends Repository {
             //descarga desde la api
             getWeatherFromNetwork(latLng.latitude, latLng.longitude);
 
+        }*/
+
+        if (latLng == null) return;
+
+        if (lastUpdateClima == 0f) {
+            getWeatherFromNetwork(latLng.latitude, latLng.longitude, onVoidListener);
+        } else if (checkLifeTime(lastUpdateClima, lifeTimeClima)) {
+            getWeatherFromNetwork(latLng.latitude, latLng.longitude, onVoidListener);
         }
     }
 
 
-    private void getWeatherFromNetwork(double lat, double lng) {
+    private void getWeatherFromNetwork(double lat, double lng, OnVoidListener onVoidListener) {
+        onVoidListener.onStartProcess();
         Call<WeatherLocation> call = apiService.getDataWeather(lat, lng, API_KEY);
         Callback<WeatherLocation> callBack = new Callback<WeatherLocation>() {
             @Override
@@ -140,18 +150,24 @@ public class WeatherRepository extends Repository {
                     }.execute();
                 } else if (response.code() == 403) {
                     //requiere un tratado especial de reintento con recuperacion de auth token.
-                    error.postValue("error de autorizacion");
+                    onVoidListener.onError("error de autorizacion");
                 } else {
-                    error.postValue(response.errorBody().toString());
+                    onVoidListener.onError(response.errorBody().toString());
                 }
+
+                onVoidListener.onFinishProcess();
+                currentCall = null;
             }
 
             @Override
             public void onFailure(Call<WeatherLocation> call, Throwable t) {
-                error.postValue(t.getMessage());
+                onVoidListener.onFinishProcess();
+                onVoidListener.onError(t.getMessage());
+                currentCall = null;
             }
         };
         call.enqueue(callBack);
+        currentCall = call;
     }
 
     private ClimaEntity weatherToClima(WeatherLocation weatherLocation) {
@@ -164,6 +180,7 @@ public class WeatherRepository extends Repository {
                 .ciudad(weatherLocation.getSys().getCountry())
                 .temperatura(weatherLocation.getMain().getTemp())
                 .velocidad(weatherLocation.getWind().getSpeed())
+                //agregar todos los atributos
                 .build();
     }
 }

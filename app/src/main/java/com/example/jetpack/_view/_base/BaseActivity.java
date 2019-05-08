@@ -1,5 +1,6 @@
 package com.example.jetpack._view._base;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -53,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     //region ProgressBar Config
-    public void showProgressBar(String message, boolean cancelable) {
+    public void showProgressBar(String message, boolean cancelable, @Nullable DialogListener dialogListener) {
         int llPadding = 30;
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.HORIZONTAL);
@@ -79,10 +80,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         ll.addView(tvText);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
+        builder.setCancelable(cancelable);
+
         builder.setView(ll);
 
-        progressBarDialog = builder.setCancelable(cancelable).create();
+        progressBarDialog = builder
+                .setCancelable(cancelable)
+                .setOnCancelListener(dialog -> {
+                    if (dialogListener != null) {
+                        dialogListener.onCancel();
+                    }
+                })
+                .setOnDismissListener(dialog -> {
+                    if (dialogListener != null) {
+                        dialogListener.onDismiss();
+                    }
+                })
+                .create();
         progressBarDialog.show();
         Window window = progressBarDialog.getWindow();
         if (window != null) {
