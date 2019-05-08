@@ -2,6 +2,8 @@ package com.example.jetpack._model.repository.openweather;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.os.AsyncTask;
 
 import com.example.jetpack._model.database.openweather.OpenWeatherDataBase;
 import com.example.jetpack._model.database.openweather.clima.ClimaDao;
@@ -12,6 +14,7 @@ import com.example.jetpack._model.pojo.openweather.WeatherForecast;
 import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
 import com.example.jetpack._model.repository._base.Repository;
+import com.google.android.gms.maps.model.LatLng;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,6 +30,7 @@ public class WeatherRepository extends Repository {
 
     private ClimaDao climaDao;
     private LiveData<ClimaEntity> clima;
+    private MutableLiveData<String> error = new MutableLiveData<>();
 
 
     public WeatherRepository(Application application) {
@@ -34,7 +38,11 @@ public class WeatherRepository extends Repository {
 
         OpenWeatherDataBase db = OpenWeatherDataBase.getDatabase(application);
         climaDao = db.climaDao();
-        clima = climaDao.get();
+
+        if (climaDao.get() != null) {
+            clima = climaDao.get();
+        }
+
     }
 
     public void getCurrentWeatherLocation(double lat, double lng, OnResponse onResponse) {
@@ -83,7 +91,73 @@ public class WeatherRepository extends Repository {
         call.enqueue(callBack);
     }
 
-    public LiveData<ClimaEntity> getClima() {
+    public LiveData<ClimaEntity> getClima(LatLng latLng) {
+
+        /**
+         * Validamos que el clima sea distinto de null - sino lo descargamos desde la api.
+         * Validamos que el tiempo de vida del clima en base de datos aun sea valido.
+         * Validamos que la latitud no sea distinta.
+         * Validamos que la longitud no sea distinta.
+         * Si alguna de estas validaciones no se cumple se descarga desde la api
+         * */
+
+        if (clima.getValue() == null && latLng != null) {
+
+            getWeatherFromNetwork(latLng.latitude, latLng.longitude);
+
+        } else if (clima.getValue() == null &&
+                true && //tiempos de vida aun valido? requiere agregar el algoritmo
+                latLng != null &&
+                clima.getValue().getLatitud() == latLng.latitude &&
+                clima.getValue().getLongitud() == latLng.longitude) {
+
+            //descarga desde la api
+            getWeatherFromNetwork(latLng.latitude, latLng.longitude);
+
+        }
+
         return clima;
+    }
+
+    private void getWeatherFromNetwork(double lat, double lng) {
+        Call<WeatherLocation> call = apiService.getDataWeather(lat, lng, API_KEY);
+        Callback<WeatherLocation> callBack = new Callback<WeatherLocation>() {
+            @Override
+            public void onResponse(Call<WeatherLocation> call, Response<WeatherLocation> response) {
+                if (response.isSuccessful()) {
+                    new AsyncTask<String, String, String>() {
+                        @Override
+                        protected String doInBackground(String... strings) {
+                            climaDao.insert(weatherToClima(response.body()));
+                            return null;
+                        }
+                    }.execute();
+                } else if (response.code() == 403) {
+                    //requiere un tratado especial de reintento con recuperacion de auth token.
+                    error.postValue("error de autorizacion");
+                } else {
+                    error.postValue(response.errorBody().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WeatherLocation> call, Throwable t) {
+                error.postValue(t.getMessage());
+            }
+        };
+        call.enqueue(callBack);
+    }
+
+    private ClimaEntity weatherToClima(WeatherLocation weatherLocation) {
+
+        return new ClimaEntity.Builder()
+                .id(1)
+                .latitud(weatherLocation.getCoord().getLat())
+                .longitud(weatherLocation.getCoord().getLon())
+                .pais(weatherLocation.getSys().getCountry())
+                .ciudad(weatherLocation.getSys().getCountry())
+                .temperatura(weatherLocation.getMain().getTemp())
+                .velocidad(weatherLocation.getWind().getSpeed())
+                .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.jetpack._viewmodel.weather;
+package com.example.jetpack._viewmodel.openweather;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
@@ -10,6 +10,7 @@ import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
 import com.example.jetpack._model.repository.openweather.WeatherRepository;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class WeatherViewModel extends BaseViewModel {
     private final MutableLiveData<WeatherLocation> currentWeatherLocation = new MutableLiveData<>();
     private final MutableLiveData<String> currentMessageError = new MutableLiveData<>();
     private final MutableLiveData<ClimaEntity> climaActual = new MutableLiveData<>();
+
+    private MutableLiveData<LatLng> latLng = new MutableLiveData<>();
 
     public WeatherViewModel(@NonNull Application application) {
         super(application);
@@ -49,6 +52,15 @@ public class WeatherViewModel extends BaseViewModel {
         return climaActual;
     }
 
+    public MutableLiveData<LatLng> getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng.postValue(latLng);
+        weatherRepository.getClima(latLng);
+    }
+
     //endregion
 
     @Deprecated
@@ -75,8 +87,8 @@ public class WeatherViewModel extends BaseViewModel {
         });
     }
 
-    public void obtenerClimaActual(double lat, double lng) {
-        weatherRepository.obtenerClimaActual(lat, lng, new OnResponse<ClimaEntity>() {
+    /*public void obtenerClimaActual(double lat, double lng) {
+        weatherRepository.getClima(lat, lng, new OnResponse<ClimaEntity>() {
             @Override
             public void OnResponse(ClimaEntity entity) {
                 climaActual.postValue(entity);
@@ -92,6 +104,10 @@ public class WeatherViewModel extends BaseViewModel {
                 currentMessageError.postValue(error + " code: " + code);
             }
         });
+    }*/
+
+    public LiveData<ClimaEntity> getClima() {
+        return weatherRepository.getClima(latLng.getValue());
     }
 
 }

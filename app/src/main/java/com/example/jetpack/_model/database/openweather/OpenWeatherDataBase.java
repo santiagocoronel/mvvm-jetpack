@@ -8,7 +8,7 @@ import android.content.Context;
 import com.example.jetpack._model.database.openweather.clima.ClimaDao;
 import com.example.jetpack._model.database.openweather.clima.ClimaEntity;
 
-@Database(entities = {ClimaEntity.class}, version = 1)
+@Database(entities = {ClimaEntity.class}, version = 2, exportSchema = false)
 public abstract class OpenWeatherDataBase extends RoomDatabase {
 
     public abstract ClimaDao climaDao();

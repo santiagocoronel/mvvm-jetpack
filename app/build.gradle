@@ -104,6 +104,7 @@ dependencies {
 
     //Google services
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
 
     //implementacion de CloudinaryUtils
     implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
