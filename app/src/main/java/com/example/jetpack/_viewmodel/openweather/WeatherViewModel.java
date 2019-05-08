@@ -58,7 +58,7 @@ public class WeatherViewModel extends BaseViewModel {
 
     public void setLatLng(LatLng latLng) {
         this.latLng.postValue(latLng);
-        weatherRepository.getClima(latLng);
+        refrescarClima();
     }
 
     //endregion
@@ -87,27 +87,12 @@ public class WeatherViewModel extends BaseViewModel {
         });
     }
 
-    /*public void obtenerClimaActual(double lat, double lng) {
-        weatherRepository.getClima(lat, lng, new OnResponse<ClimaEntity>() {
-            @Override
-            public void OnResponse(ClimaEntity entity) {
-                climaActual.postValue(entity);
-            }
-
-            @Override
-            public void OnResponse(List<ClimaEntity> listEntity) {
-
-            }
-
-            @Override
-            public void onError(int code, String error) {
-                currentMessageError.postValue(error + " code: " + code);
-            }
-        });
-    }*/
-
     public LiveData<ClimaEntity> getClima() {
-        return weatherRepository.getClima(latLng.getValue());
+        return weatherRepository.getClima();
+    }
+
+    public void refrescarClima() {
+        weatherRepository.refrescarClima(latLng.getValue());
     }
 
 }

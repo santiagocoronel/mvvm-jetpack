@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -124,6 +125,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     public void initListeners() {
         fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show());
+
     }
 
     private void initLocation() {
@@ -207,6 +209,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
 
     @Deprecated
     private void updateUI(WeatherLocation weatherLocation) {
+        //swipeRefreshLayout.setRefreshing(false);
         dismissProgressBar();
         textViewCityName.setText(weatherLocation.getName());
         textViewMaxTemp.setText(weatherLocation.getWeather().get(0).getDescription());
@@ -214,6 +217,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     }
 
     private void updateUI(ClimaEntity climaEntity) {
+        //swipeRefreshLayout.setRefreshing(false);
         dismissProgressBar();
         textViewCityName.setText(climaEntity.getCiudad());
         textViewMaxTemp.setText(climaEntity.getTemperatura() + "");
@@ -221,6 +225,7 @@ public class WeatherActivity extends BaseActivity implements BasicMethods {
     }
 
     private void showError(String s) {
+        //swipeRefreshLayout.setRefreshing(false);
         dismissProgressBar();
         showDialogMessage("Error", s);
         weatherViewModel.setCurrentMessageError(null);

@@ -14,4 +14,8 @@ public class Repository {
         //codigo para recuperar una nueva auth token.
 
     }
+
+    public boolean checkLifeTime(long lastTime, long lifeTimeMins){
+        return (System.currentTimeMillis() - lastTime) < (lifeTimeMins * 60000);
+    }
 }

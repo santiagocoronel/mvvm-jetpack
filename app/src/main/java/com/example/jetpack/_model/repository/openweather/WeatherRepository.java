@@ -31,6 +31,8 @@ public class WeatherRepository extends Repository {
     private ClimaDao climaDao;
     private LiveData<ClimaEntity> clima;
     private MutableLiveData<String> error = new MutableLiveData<>();
+    private long lastUpdateClima = 0l;
+    private long lifeTimeClima = 1; //in minutes
 
 
     public WeatherRepository(Application application) {
@@ -91,7 +93,11 @@ public class WeatherRepository extends Repository {
         call.enqueue(callBack);
     }
 
-    public LiveData<ClimaEntity> getClima(LatLng latLng) {
+    public LiveData<ClimaEntity> getClima() {
+        return clima;
+    }
+
+    public void refrescarClima(LatLng latLng) {
 
         /**
          * Validamos que el clima sea distinto de null - sino lo descargamos desde la api.
@@ -106,7 +112,7 @@ public class WeatherRepository extends Repository {
             getWeatherFromNetwork(latLng.latitude, latLng.longitude);
 
         } else if (clima.getValue() == null &&
-                true && //tiempos de vida aun valido? requiere agregar el algoritmo
+                checkLifeTime(lastUpdateClima, lifeTimeClima) && //tiempos de vida aun valido? requiere agregar el algoritmo
                 latLng != null &&
                 clima.getValue().getLatitud() == latLng.latitude &&
                 clima.getValue().getLongitud() == latLng.longitude) {
@@ -115,9 +121,8 @@ public class WeatherRepository extends Repository {
             getWeatherFromNetwork(latLng.latitude, latLng.longitude);
 
         }
-
-        return clima;
     }
+
 
     private void getWeatherFromNetwork(double lat, double lng) {
         Call<WeatherLocation> call = apiService.getDataWeather(lat, lng, API_KEY);
@@ -125,6 +130,7 @@ public class WeatherRepository extends Repository {
             @Override
             public void onResponse(Call<WeatherLocation> call, Response<WeatherLocation> response) {
                 if (response.isSuccessful()) {
+                    lastUpdateClima = System.currentTimeMillis();
                     new AsyncTask<String, String, String>() {
                         @Override
                         protected String doInBackground(String... strings) {
