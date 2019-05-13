@@ -3,8 +3,6 @@ package com.example.jetpack._model.repository._base;
 import android.app.Application;
 import android.support.annotation.Nullable;
 
-import com.example.jetpack.util.OnVoidListener;
-
 import retrofit2.Call;
 
 public abstract class Repository {
@@ -20,7 +18,7 @@ public abstract class Repository {
     public Repository(Application application) {
     }
 
-    protected void regenerateAuthToken(@Nullable OnVoidListener onVoidListener) {
+    protected void regenerateJwt(@Nullable OnResponse onResponse) {
 
         //codigo para recuperar una nueva auth token.
 
