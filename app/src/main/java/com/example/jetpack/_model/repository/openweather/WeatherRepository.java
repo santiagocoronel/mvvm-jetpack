@@ -37,6 +37,7 @@ public class WeatherRepository extends Repository {
 
 
     public WeatherRepository(Application application) {
+        super(application);
         apiService = ServiceGenerator.createService(BASE_URL, null, null, OpenWeatherMapApi.class);
 
         OpenWeatherDataBase db = OpenWeatherDataBase.getDatabase(application);
