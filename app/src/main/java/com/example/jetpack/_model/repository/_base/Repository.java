@@ -6,7 +6,10 @@ import com.example.jetpack.util.OnVoidListener;
 
 import retrofit2.Call;
 
-public class Repository {
+public abstract class Repository {
+
+    protected final String BASE_URL = "";
+    protected final String API_KEY = "";
 
     protected Call currentCall = null;
 
