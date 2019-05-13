@@ -31,10 +31,11 @@ public class WeatherRepository extends Repository {
 
     private ClimaDao climaDao;
     private LiveData<ClimaEntity> clima;
-    //private MutableLiveData<String> error = new MutableLiveData<>();
     private long lastUpdateClima = 0l;
     private long lifeTimeClima = 1; //in minutes
 
+    protected String basicAuth = "";
+    protected String jwtToken = "";
 
     public WeatherRepository(Application application) {
         super(application);
