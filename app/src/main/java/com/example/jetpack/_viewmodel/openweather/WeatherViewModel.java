@@ -61,15 +61,9 @@ public class WeatherViewModel extends BaseViewModel {
 
         weatherRepository.getCurrentWeatherLocation(lat, lng, new OnResponse<WeatherLocation>() {
             @Override
-            public void OnResponse(WeatherLocation entity) {
+            public void onResponse(WeatherLocation entity, List<WeatherLocation> listEntity) {
                 //una respuesta de un solo objeto
                 currentWeatherLocation.postValue(entity);
-            }
-
-            @Override
-            public void OnResponse(List<WeatherLocation> listEntity) {
-                //una respuesta de una lista de objectos.
-
             }
 
             @Override
