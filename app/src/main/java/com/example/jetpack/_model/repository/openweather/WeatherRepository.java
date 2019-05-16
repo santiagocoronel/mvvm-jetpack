@@ -55,7 +55,7 @@ public class WeatherRepository extends Repository {
             @Override
             public void onResponse(Call<WeatherLocation> call, Response<WeatherLocation> response) {
                 if (response.isSuccessful()) {
-                    onResponse.onResponse(response.body(), null);
+                    onResponse.onResponse(OnResponse.ResponseType.OK, response.body(), null);
                 } else if (response.code() == 403) {
                     //requiere un tratado especial de reintento con recuperacion de auth token.
                     onResponse.onError(response.code(), "error de autorizacion");
@@ -78,7 +78,7 @@ public class WeatherRepository extends Repository {
             @Override
             public void onResponse(Call<WeatherForecast> call, Response<WeatherForecast> response) {
                 if (response.isSuccessful()) {
-                    onResponse.onResponse(response.body(), null);
+                    onResponse.onResponse(OnResponse.ResponseType.OK, response.body(), null);
                 } else if (response.code() == 403) {
                     //requiere un tratado especial de reintento con recuperacion de auth token.
                     onResponse.onError(response.code(), "error de autorizacion");
