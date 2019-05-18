@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.example.jetpack._model.database.openweather.clima.ClimaEntity;
 import com.example.jetpack._model.pojo.openweather.WeatherLocation;
 import com.example.jetpack._model.repository._base.OnResponse;
+import com.example.jetpack._model.repository._base.ResponseType;
 import com.example.jetpack._model.repository.openweather.WeatherRepository;
 import com.example.jetpack._viewmodel._base.BaseViewModel;
 import com.example.jetpack.util.OnVoidListener;

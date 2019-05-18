@@ -7,10 +7,6 @@ import java.util.List;
 
 public interface OnResponse<T> {
 
-    enum ResponseType {
-        OK, BAD
-    }
-
     void onResponse(@NonNull ResponseType responseType, @Nullable T entity, @Nullable List<T> listEntity);
 
     void onError(int code, String error);
